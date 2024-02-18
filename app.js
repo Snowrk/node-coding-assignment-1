@@ -108,7 +108,8 @@ app.get('/agenda/', queryAugGen, checker, async (request, response) => {
 app.post('/todos/', bodyAugGen, checker, async (request, response) => {
   try {
     const {id, todo, priority, status, category, dueDate} = request.body
-    const uploadTodoQuery = `INSERT INTO todo(id, todo, priority, status, category, due_date) VALUES(${id}, '${todo}', '${priority}', '${status}', '${category}', '${dueDate}')`
+    const formatedDueDate = format(new Date(dueDate), 'yyyy-MM-dd')
+    const uploadTodoQuery = `INSERT INTO todo(id, todo, priority, status, category, due_date) VALUES(${id}, '${todo}', '${priority}', '${status}', '${category}', '${formatedDueDate}')`
     const newTodo = await db.run(uploadTodoQuery)
     response.send('Todo Successfully Added')
   } catch (e) {
